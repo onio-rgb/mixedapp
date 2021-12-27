@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+import './reddit.dart';
+import './twitter.dart';
+import './youtube.dart';
+import 'package:http/http.dart' as http;
 void main() {
   runApp(MyApp());
 }
@@ -12,60 +15,60 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var list = ['Youtube', 'Reddit', 'Twitter'];
+  var index = 0;
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Widget choseScreen() {
+    if (_selectedIndex == 0)
+      return YoutubeScreen();
+    else if (_selectedIndex == 1)
+      return RedditScreen();
+    else
+      return TwitterScreen();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.black,
+        accentColor: Colors.black,
+      ),
       home: Scaffold(
         appBar: AppBar(
-            title: Text("YTR"),
-            backgroundColor: Colors.black87,
-            centerTitle: true,
-            titleSpacing: 2.0,
-            leading: Builder(builder: (context) {
-              return IconButton(
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: Icon(Icons.menu));
-            })),
-        drawer: Drawer(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          backgroundColor: Colors.white70,
-          elevation: 4.0,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: const <Widget>[
-              SizedBox(
-                height: 20.0,
-              ),
-              Card(
-                child: Text(
-                  "Youtube",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.center,
-                ),
-                color: Colors.white70,
-              ),
-              Card(
-                child: Text(
-                  "Twitter",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.center,
-                ),
-                color: Colors.white70,
-              ),
-              Card(
-                child: Text(
-                  "Reddit",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                color: Colors.white70,
-              ),
-            ],
-          ),
+          title: Text("YTR"),
+          backgroundColor: Colors.black87,
+          centerTitle: true,
+          titleSpacing: 2.0,
+        ),
+        body: choseScreen(),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.youtube_searched_for),
+              label: 'Youtube',
+              backgroundColor: Colors.red,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Reddit',
+              backgroundColor: Colors.orange,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Twitter',
+              backgroundColor: Colors.orange,
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.black,
+          onTap: _onItemTapped,
         ),
       ),
     );
