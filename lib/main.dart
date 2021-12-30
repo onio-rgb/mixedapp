@@ -3,6 +3,7 @@ import './reddit.dart';
 import './twitter.dart';
 import './youtube.dart';
 import 'package:http/http.dart' as http;
+
 void main() {
   runApp(MyApp());
 }
@@ -42,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text("YTR"),
+          title: Text(list[_selectedIndex]),
           backgroundColor: Colors.black87,
           centerTitle: true,
           titleSpacing: 2.0,
