@@ -3,9 +3,12 @@ import './reddit.dart';
 import './twitter.dart';
 import './youtube.dart';
 import 'package:http/http.dart' as http;
+import 'youtube_setting.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -36,41 +39,48 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.black,
-        accentColor: Colors.black,
+    return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              if (_selectedIndex == 0) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext cxt) => YoutubeSetting()));
+              }
+            },
+          )
+        ],
+        title: Text(list[_selectedIndex]),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        titleSpacing: 2.0,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(list[_selectedIndex]),
-          backgroundColor: Colors.black87,
-          centerTitle: true,
-          titleSpacing: 2.0,
-        ),
-        body: choseScreen(),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.youtube_searched_for),
-              label: 'Youtube',
-              backgroundColor: Colors.red,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Reddit',
-              backgroundColor: Colors.orange,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Twitter',
-              backgroundColor: Colors.orange,
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.black,
-          onTap: _onItemTapped,
-        ),
+      body: choseScreen(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.youtube_searched_for),
+            label: 'Youtube',
+            backgroundColor: Colors.red,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Reddit',
+            backgroundColor: Colors.orange,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Twitter',
+            backgroundColor: Colors.orange,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.black,
+        onTap: _onItemTapped,
       ),
     );
   }
