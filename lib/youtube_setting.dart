@@ -15,7 +15,7 @@ class _YoutubeSettingState extends State<YoutubeSetting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         backgroundColor: Colors.black87,
         leading: IconButton(
@@ -36,7 +36,7 @@ class _YoutubeSettingState extends State<YoutubeSetting> {
           } else if (snapshot.connectionState == ConnectionState.done) {
             return ChannelCard(
               banner_url: snapshot.data!['items'][0]['snippet']['thumbnails']
-                  ['default']['url'],
+                  ['medium']['url'],
               channel_name: snapshot.data!['items'][0]['snippet']['title'],
             );
           }

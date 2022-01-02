@@ -8,8 +8,8 @@ class ChannelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 140,
+      width: 150,
+      height: 180,
       color: Colors.transparent,
       child: Card(
         shape:
@@ -17,13 +17,21 @@ class ChannelCard extends StatelessWidget {
         color: Colors.black87,
         child: Column(
           children: <Widget>[
+            SizedBox(
+              width: double.infinity,
+              height: 10,
+            ),
             Expanded(
-              flex: 4,
+              flex: 3,
               child: CircleAvatar(
-                radius: 40,
+                radius: 80,
                 backgroundColor: Colors.transparent,
-                foregroundImage: NetworkImage(banner_url),
+                foregroundImage: NetworkImage(banner_url, scale: 0.4),
               ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 20,
             ),
             Expanded(
               flex: 1,
