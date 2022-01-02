@@ -10,6 +10,7 @@ class YoutubeApi {
   };
   final String api = 'AIzaSyABX1HnWsjAWCm5FPcZZr_Ywf14ASofpDI';
   final _baseUrl = 'www.googleapis.com';
+
   Future<Map<String, dynamic>> getVideosList(List<String> videoId) async {
     Map<String, dynamic> parameters = {
       'part': ['snippet', 'statistics'],
@@ -44,5 +45,22 @@ class YoutubeApi {
     Response response = await http.get(uri, headers: headers);
     Map<String, dynamic> body = json.decode(response.body);
     return body['items'][0]["brandingSettings"]["image"]["bannerExternalUrl"];
+  }
+
+  Future<Map<String, dynamic>> getChannelList(String query) async {
+    Map<String, dynamic> parameters = {
+      'part': 'snippet',
+      'q': query,
+      'type': 'channel',
+      'key': api,
+    };
+    Uri uri = Uri.https(
+      _baseUrl,
+      '/youtube/v3/search',
+      parameters,
+    );
+    Response response = await http.get(uri, headers: headers);
+    Map<String, dynamic> body = json.decode(response.body);
+    return body;
   }
 }
