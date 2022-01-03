@@ -23,10 +23,15 @@ class ChannelCard extends StatelessWidget {
             ),
             Expanded(
               flex: 3,
-              child: CircleAvatar(
-                radius: 80,
-                backgroundColor: Colors.transparent,
-                foregroundImage: NetworkImage(banner_url, scale: 0.4),
+              child: Container(
+                width: 90,
+                height: 110,
+                child: CircleAvatar(
+                    radius: 80,
+                    backgroundColor: Colors.transparent,
+                    foregroundImage: NetworkImage(
+                      banner_url,
+                    )),
               ),
             ),
             SizedBox(

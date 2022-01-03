@@ -3,7 +3,7 @@ import './reddit.dart';
 import './twitter.dart';
 import './youtube.dart';
 import 'package:http/http.dart' as http;
-import 'youtube_setting.dart';
+import 'search_channel.dart';
 
 void main() {
   runApp(MaterialApp(

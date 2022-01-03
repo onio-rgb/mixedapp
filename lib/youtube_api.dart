@@ -8,7 +8,7 @@ class YoutubeApi {
   Map<String, String> headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
   };
-  final String api = 'AIzaSyABX1HnWsjAWCm5FPcZZr_Ywf14ASofpDI';
+  final String api = 'AIzaSyAaP79k02NHTI1sc_pnwD0VESkppLIdmVA';
   final _baseUrl = 'www.googleapis.com';
 
   Future<Map<String, dynamic>> getVideosList(List<String> videoId) async {
@@ -52,6 +52,7 @@ class YoutubeApi {
       'part': 'snippet',
       'q': query,
       'type': 'channel',
+      'maxResults': '5',
       'key': api,
     };
     Uri uri = Uri.https(
