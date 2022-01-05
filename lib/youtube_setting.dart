@@ -50,6 +50,21 @@ class _YoutubeSettingState extends State<YoutubeSetting> {
   //     global.channels.add(channel);
   //   }
   // }
+  void clear() {
+    box.erase();
+    readChannels();
+  }
+
+  void readChannels() {
+    global.channels = [];
+    if (box.read('channels') != null) {
+      temp = box.read('channels');
+      for (int i = 0; i < temp.length; i++) {
+        Channel channel = Channel.fromMap(temp[i], i);
+        global.channels.add(channel);
+      }
+    }
+  }
 
   void initState() {
     super.initState();
@@ -68,18 +83,49 @@ class _YoutubeSettingState extends State<YoutubeSetting> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: IconButton(
+        color: Colors.white,
+        splashColor: Colors.white,
         icon: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(
-              
-              MaterialPageRoute(
-                  builder: (BuildContext context) => SearchChannel())).then((_) {
+          Navigator.of(context)
+              .push(MaterialPageRoute(
+                  builder: (BuildContext context) => SearchChannel()))
+              .then((_) {
+            readChannels();
             setState(() {});
           });
         },
       ),
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 30),
+            child: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                          title: Text('Warning'),
+                          content: Text(
+                              'Are you sure you want to delete all favourites!'),
+                          actions: <Widget>[
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('No')),
+                            TextButton(
+                                onPressed: () {
+                                  clear();
+                                  Navigator.pop(context);
+                                  setState(() {});
+                                },
+                                child: Text('Yes'))
+                          ],
+                        ))),
+          )
+        ],
         backgroundColor: Colors.black87,
         leading: IconButton(
           onPressed: () {
@@ -87,7 +133,7 @@ class _YoutubeSettingState extends State<YoutubeSetting> {
           },
           icon: Icon(Icons.arrow_back_sharp),
         ),
-        title: Text("Chose Favourite Channels"),
+        title: Text("Favourite Channels"),
         centerTitle: true,
       ),
       body: GridView.builder(

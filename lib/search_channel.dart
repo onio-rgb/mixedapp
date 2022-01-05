@@ -120,6 +120,7 @@ class _SearchChannelState extends State<SearchChannel> {
                       return InkWell(
                         onTap: () {
                           Channel tempChannel = Channel(
+                            channel_id: snapshot.data!['items'][index]['id']['channelId'],
                               banner_url: snapshot.data!['items'][index]
                                   ['snippet']['thumbnails']['medium']['url'],
                               channel_name: snapshot.data!['items'][index]
