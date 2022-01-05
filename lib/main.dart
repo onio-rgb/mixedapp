@@ -4,8 +4,12 @@ import './twitter.dart';
 import './youtube.dart';
 import 'package:http/http.dart' as http;
 import 'search_channel.dart';
+import 'youtube_setting.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
+  
   runApp(MaterialApp(
     home: MyApp(),
   ));

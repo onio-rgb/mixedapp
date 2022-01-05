@@ -1,17 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'channel_card.dart';
 import 'youtube_api.dart';
+import 'channel.dart';
+import 'package:get_storage/get_storage.dart';
+import 'globals.dart' as global;
 
-class YoutubeSetting extends StatefulWidget {
-  const YoutubeSetting({Key? key}) : super(key: key);
+class SearchChannel extends StatefulWidget {
+  const SearchChannel({Key? key}) : super(key: key);
 
   @override
-  _YoutubeSettingState createState() => _YoutubeSettingState();
+  _SearchChannelState createState() => _SearchChannelState();
 }
 
-class _YoutubeSettingState extends State<YoutubeSetting> {
+class _SearchChannelState extends State<SearchChannel> {
   var youtubeapi = new YoutubeApi();
   String query = "";
+  final box = GetStorage('channels_fav');
+  List temp = [];
+
+  // void addChannelFavourite(Channel channel) {
+  //   global.channels.add(channel);
+  //   final index = global.channels.length;
+  //   temp.add(channel.toJson(index));
+  //   box.write('channels', temp);
+  // }
+
+  // void readChannelFavourite() {
+  //   if (box.read('channels') == null) return;
+  //   temp = box.read('channels');
+  //   for (int i = 0; i < temp.length; i++) {
+  //     final Map map = temp[i];
+  //     Channel channel = Channel.fromMap(map, i);
+  //     global.channels.add(channel);
+  //   }
+  // }
+
+  // void retreiveChannels() {
+  //   if (box.read('channels') == null) return;
+  //   temp = box.read('channels');
+  //   global.channels = [];
+  //   for (int i = 0; i < temp.length; i++) {
+  //     Map map = temp[i];
+  //     Channel channel = Channel.fromMap(map, i);
+  //     print(channel.channel_name);
+  //     global.channels.add(channel);
+  //   }
+  // }
+  void addChannelFavourite(Channel channel) {
+    temp.add(channel.toJson(temp.length));
+    box.erase();
+    box.write('channels', temp);
+  }
+
+  void initState() {
+    super.initState();
+    global.channels = [];
+    if (box.read('channels') != null) {
+      temp = box.read('channels');
+      for (int i = 0; i < temp.length; i++) {
+        Channel channel = Channel.fromMap(temp[i], i);
+        global.channels.add(channel);
+      }
+    } // restore list from storing in initState
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,11 +117,22 @@ class _YoutubeSettingState extends State<YoutubeSetting> {
                       return Center(child: CircularProgressIndicator());
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
-                      return ChannelCard(
-                        banner_url: snapshot.data!['items'][index]['snippet']
-                            ['thumbnails']['medium']['url'],
-                        channel_name: snapshot.data!['items'][index]['snippet']
-                            ['title'],
+                      return InkWell(
+                        onTap: () {
+                          Channel tempChannel = Channel(
+                              banner_url: snapshot.data!['items'][index]
+                                  ['snippet']['thumbnails']['medium']['url'],
+                              channel_name: snapshot.data!['items'][index]
+                                  ['snippet']['title']);
+                          addChannelFavourite(tempChannel);
+                          Navigator.pop(context);
+                        },
+                        child: ChannelCard(
+                          banner_url: snapshot.data!['items'][index]['snippet']
+                              ['thumbnails']['medium']['url'],
+                          channel_name: snapshot.data!['items'][index]
+                              ['snippet']['title'],
+                        ),
                       );
                     }
                     return Container(
