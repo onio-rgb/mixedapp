@@ -9,7 +9,7 @@ import 'package:get_storage/get_storage.dart';
 
 void main() async {
   await GetStorage.init();
-  
+
   runApp(MaterialApp(
     home: MyApp(),
   ));
@@ -44,51 +44,65 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              if (_selectedIndex == 0) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext cxt) => YoutubeSetting())).then((_) {
-            
-            setState(() {});
-          });;
-              }
-            },
-          )
-        ],
-        title: Text(list[_selectedIndex]),
-        backgroundColor: Colors.black,
-        centerTitle: true,
-        titleSpacing: 2.0,
-      ),
-      body: choseScreen(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.youtube_searched_for),
-            label: 'Youtube',
-            backgroundColor: Colors.red,
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                if (_selectedIndex == 0) {
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext cxt) => YoutubeSetting()))
+                      .then((_) {
+                    setState(() {});
+                  });
+                  ;
+                }
+              },
+            )
+          ],
+          title: Text(list[_selectedIndex]),
+          backgroundColor: Colors.black,
+          centerTitle: true,
+          titleSpacing: 2.0,
+        ),
+        body: choseScreen(),
+        bottomNavigationBar: new Theme(
+          data: Theme.of(context).copyWith(
+              // sets the background color of the `BottomNavigationBar`
+              canvasColor: Colors.grey,
+              // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+              primaryColor: Colors.white,
+              textTheme: Theme.of(context)
+                  .textTheme
+                  .copyWith(caption: new TextStyle(color: Colors.white))),
+          child: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.youtube_searched_for,
+                ),
+                label: 'Youtube',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.business,
+                ),
+                label: 'Reddit',
+                backgroundColor: Colors.orange,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                ),
+                label: 'Twitter',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.black,
+            onTap: _onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Reddit',
-            backgroundColor: Colors.orange,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Twitter',
-            backgroundColor: Colors.orange,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        onTap: _onItemTapped,
-      ),
-    );
+        ));
   }
 }
