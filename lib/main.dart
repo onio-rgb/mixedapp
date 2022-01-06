@@ -53,7 +53,10 @@ class _MyAppState extends State<MyApp> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext cxt) => YoutubeSetting()));
+                        builder: (BuildContext cxt) => YoutubeSetting())).then((_) {
+            
+            setState(() {});
+          });;
               }
             },
           )
