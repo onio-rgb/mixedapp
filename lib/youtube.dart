@@ -60,7 +60,7 @@ class _YoutubeScreenState extends State<YoutubeScreen> {
                             upload_time: snapshot.data!['items'][index]
                                 ['snippet']['publishedAt'],
                             url: snapshot.data!['items'][index]['snippet']
-                                ['thumbnails']['standard']['url'],
+                                ['thumbnails']['default']['url'],
                             views: snapshot.data!['items'][index]['statistics']
                                 ['viewCount'],
                             banner_url: snapshot.data!['items'][index]
