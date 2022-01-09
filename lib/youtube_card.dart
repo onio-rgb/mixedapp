@@ -87,6 +87,8 @@ class YoutubeCard extends StatelessWidget {
                                 child: Text(
                                   channel_name,
                                   style: const TextStyle(
+                                      leadingDistribution:
+                                          TextLeadingDistribution.even,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 10),
@@ -97,7 +99,7 @@ class YoutubeCard extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  views,
+                                  '$views views',
                                   style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w200,

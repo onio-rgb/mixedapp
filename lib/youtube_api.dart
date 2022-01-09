@@ -5,13 +5,14 @@ import 'dart:io';
 import 'dart:convert';
 import 'globals.dart' as global;
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'channel.dart';
 
 class YoutubeApi {
   Map<String, String> headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
   };
-  
-  final String api = global.apikeys['puru.verma.aca@gmail.com'] as String;
+
+  final String api = global.apikeys['puru.verma.aasec@gmail.com'] as String;
   final _baseUrl = 'www.googleapis.com';
 
   Future<Map<String, dynamic>> getVideo(List<String> videoId) async {
@@ -68,12 +69,12 @@ class YoutubeApi {
     return body;
   }
 
-  Future<Map<String, dynamic>> getLatestVideosList(String channelId) async {
+  Future<List<String>> getLatestVideosListPerChannel(String channelId) async {
     Map<String, dynamic> parameters = {
       'part': 'snippet',
       'channelId': channelId,
       'type': 'video',
-      'maxResults': '10',
+      'maxResults': '4',
       'order': 'date',
       'key': api,
     };
@@ -88,6 +89,20 @@ class YoutubeApi {
     for (var i in body['items']) {
       videoIds.add(i['id']['videoId']);
     }
+    // Map<String, dynamic> latestVideosPerChannel = await getVideo(videoIds);
+    return videoIds;
+  }
+
+  Future<Map<String, dynamic>> getLatestVideosList(
+      List<Channel> channels) async {
+    List<String> videoIds = [];
+    List<String> temp = [];
+    for (int i = 0; i < channels.length; i++) {
+      temp = await getLatestVideosListPerChannel(channels[i].channel_id);
+      videoIds.addAll(temp);
+    }
+    videoIds.shuffle();
+    videoIds.shuffle();
     Map<String, dynamic> latestVideos = await getVideo(videoIds);
     return latestVideos;
   }

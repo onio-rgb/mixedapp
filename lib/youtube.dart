@@ -43,14 +43,14 @@ class _YoutubeScreenState extends State<YoutubeScreen> {
         body: globals.channels.length != 0
             ? FutureBuilder(
                 future: youtubeapi
-                    .getLatestVideosList(globals.channels[0].channel_id),
+                    .getLatestVideosList(globals.channels),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.none &&
                       snapshot.hasData == null) {
                     return Center(child: CircularProgressIndicator());
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     return ListView.builder(
-                        itemCount: 10,
+                        itemCount: snapshot.data['items'].length,
                         itemBuilder: (BuildContext context, int index) {
                           return YoutubeCard(
                             channel_name: snapshot.data!['items'][index]
@@ -60,7 +60,7 @@ class _YoutubeScreenState extends State<YoutubeScreen> {
                             upload_time: snapshot.data!['items'][index]
                                 ['snippet']['publishedAt'],
                             url: snapshot.data!['items'][index]['snippet']
-                                ['thumbnails']['high']['url'],
+                                ['thumbnails']['standard']['url'],
                             views: snapshot.data!['items'][index]['statistics']
                                 ['viewCount'],
                             banner_url: snapshot.data!['items'][index]
