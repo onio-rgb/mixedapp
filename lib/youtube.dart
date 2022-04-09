@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'globals.dart' as globals;
 import 'channel.dart';
 import 'package:get_storage/get_storage.dart';
+import 'youtube_setting.dart';
 
 class YoutubeScreen extends StatefulWidget {
   const YoutubeScreen({Key? key}) : super(key: key);
@@ -39,11 +40,31 @@ class _YoutubeScreenState extends State<YoutubeScreen> {
   Widget build(BuildContext context) {
     readChannels();
     return Scaffold(
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext cxt) => YoutubeSetting()))
+                    .then((_) {
+                  setState(() {});
+                });
+                ;
+              },
+            )
+          ],
+          title: Text("Youtube"),
+          backgroundColor: Colors.black,
+          centerTitle: true,
+          titleSpacing: 2.0,
+        ),
         backgroundColor: Colors.black87,
         body: globals.channels.length != 0
             ? FutureBuilder(
-                future: youtubeapi
-                    .getLatestVideosList(globals.channels),
+                future: youtubeapi.getLatestVideosList(globals.channels),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.none &&
                       snapshot.hasData == null) {

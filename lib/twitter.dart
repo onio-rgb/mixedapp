@@ -11,9 +11,6 @@ class _TwitterScreenState extends State<TwitterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Twitter'),
-      ),
       body: Text("Twitter"),
     );
   }

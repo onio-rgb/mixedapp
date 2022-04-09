@@ -44,29 +44,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                if (_selectedIndex == 0) {
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext cxt) => YoutubeSetting()))
-                      .then((_) {
-                    setState(() {});
-                  });
-                  ;
-                }
-              },
-            )
-          ],
-          title: Text(list[_selectedIndex]),
-          backgroundColor: Colors.black,
-          centerTitle: true,
-          titleSpacing: 2.0,
-        ),
         body: choseScreen(),
         bottomNavigationBar: new Theme(
           data: Theme.of(context).copyWith(
