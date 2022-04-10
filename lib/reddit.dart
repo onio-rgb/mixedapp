@@ -1,50 +1,33 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:flutter/material.dart';
-
-class Posts {
-  final String url;
-  Posts({required this.url});
-}
+import 'package:mixedapp/keys/keys.dart';
+import 'package:mixedapp/services/reddit_auth_loading.dart';
+import 'package:mixedapp/settings/reddit_settings.dart';
 
 class RedditScreen extends StatefulWidget {
   const RedditScreen({Key? key}) : super(key: key);
 
   @override
-  _RedditScreenState createState() => _RedditScreenState();
+  State<RedditScreen> createState() => _RedditScreenState();
 }
 
 class _RedditScreenState extends State<RedditScreen> {
-  Future<void> auth() async {
-    String myClientId = 'cW7WzeCqurnE8Gvq1mG2Uw';
-    String myClientSecret = 'seowNIiknM616dUZ7jKVSK6K_TCy7Q';
-    Map<String, String> header = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization':
-          'Basic ${base64.encode(utf8.encode('$myClientId:$myClientSecret'))}',
-    };
-    Response r =
-        await http.post(Uri.parse('https://www.reddit.com/api/v1/access_token'),
-            body: {
-              'grant_type': "client_credentials",
-            },
-            headers: header);
-
-    print(r.body);
-  }
-
   @override
   Widget build(BuildContext context) {
-    auth();
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext cxt) => RedditSetting()))
+                  .then((_) {
+                setState(() {});
+              });
+              ;
+            },
           ),
           IconButton(
               onPressed: () {},
@@ -58,6 +41,9 @@ class _RedditScreenState extends State<RedditScreen> {
         centerTitle: true,
         titleSpacing: 2.0,
       ),
+      body: ((isauth == false)
+          ? AuthLoadReddit()
+          : Center(child: Text("Authorized"))),
     );
   }
 }
